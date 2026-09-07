@@ -48,9 +48,6 @@ list(APPEND REFPLAYER_SOURCES
 list(APPEND REFPLAYER_SOURCES
     WebSocketConnector.cpp
 )
-list(APPEND REFPLAYER_SOURCES
-    AppActionsConnector.cpp
-)
 add_executable(RefPlayer ${REFPLAYER_SOURCES})
 
 target_include_directories(RefPlayer

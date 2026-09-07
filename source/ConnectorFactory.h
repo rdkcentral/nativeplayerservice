@@ -26,7 +26,6 @@
 #include "FireboltConnector.h"
 
 #include "WebSocketConnector.h"
-#include "AppActionsConnector.h"
 
 namespace refplayer
 {
@@ -48,7 +47,6 @@ namespace refplayer
             case ConnectorType::WEBSOCKET:
                 return std::make_unique<WebSocketConnector>(std::move(playerDelegate), std::move(fireboltConnector));
             case ConnectorType::APPACTIONS:
-                return std::make_unique<AppActionsConnector>(std::move(playerDelegate), std::move(fireboltConnector));
             default:
                 return nullptr;
             }
