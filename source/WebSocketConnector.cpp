@@ -310,11 +310,11 @@ namespace refplayer
                                            Json::Value &response,
                                            std::function<void(const std::string &, std::string &)> method)
     {
-        LOG(LogLevel::INFO, "Received request: ", request.toStyledString());
+        LOG(LogLevel::TRACE, "Received request: ", request.toStyledString());
         std::string responseStr;
         method(request.toStyledString(), responseStr);
 
-        LOG(LogLevel::INFO, "Sending response: ", responseStr);
+        LOG(LogLevel::TRACE, "Sending response: ", responseStr);
         convertRawStringToJson(responseStr, response);
     }
 
