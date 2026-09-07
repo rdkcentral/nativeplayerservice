@@ -33,7 +33,7 @@ namespace refplayer
     };
 
     //Define the current log level. This can be modified to change the logging verbosity.
-    static LogLevel CURRENT_LOG_LEVEL = LogLevel::TRACE;
+    inline LogLevel CURRENT_LOG_LEVEL = LogLevel::TRACE;
     //Provide a method to set the log level at runtime if needed. This can be useful for changing the verbosity without recompiling.
     inline void setLogLevel(LogLevel level)
     {
