@@ -26,10 +26,10 @@ namespace refplayer
 {
     enum class LogLevel
     {
-        INFO,
-        ERROR,
-        DEBUG,
-        TRACE
+        TRACE = 0,
+        DEBUG = 1,
+        INFO  = 2,
+        ERROR = 3
     };
 
     //Define the current log level. This can be modified to change the logging verbosity.
