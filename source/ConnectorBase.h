@@ -70,7 +70,6 @@ namespace refplayer
         void start() final
         {
             m_fireboltConnector->waitForFireboltConnection(FIREBOLT_WAIT_MS);
-            const bool connected = fireboltConnector().isFireboltConnected();
             onStart();
         }
 
