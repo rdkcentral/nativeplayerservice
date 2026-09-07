@@ -179,8 +179,8 @@ namespace refplayer
                     return;
                 }
                 m_playerInstance->stop();
+                m_playerInstance->setEventCallback({});
                 m_playerInstance = nullptr;
-                m_activeSessionId.clear();
                 // Reset the WAYLAND_DISPLAY environment variable
                 unsetenv("WAYLAND_DISPLAY");
             }
