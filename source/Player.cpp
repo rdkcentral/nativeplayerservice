@@ -70,8 +70,6 @@ namespace refplayer
         if (m_eventLoop)
         {
             g_main_loop_quit(m_eventLoop);
-            g_main_loop_unref(m_eventLoop);
-            m_eventLoop = nullptr;
         }
         if (m_eventThread)
         {
