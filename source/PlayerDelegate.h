@@ -21,6 +21,7 @@
 #define REFPLAYER_PLAYER_DELEGATE_H
 #include "Player.h"
 #include "PlayerEvent.h"
+#include <memory>
 #include <string>
 
 namespace refplayer
