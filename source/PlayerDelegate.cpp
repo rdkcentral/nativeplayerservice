@@ -18,6 +18,7 @@
  */
 #include "PlayerDelegate.h"
 #include "Logger.h"
+#include <cstdlib>
 #include <json/json.h>
 #include "PlayerUtils.h"
 namespace refplayer
