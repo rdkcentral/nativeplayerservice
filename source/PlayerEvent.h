@@ -27,6 +27,7 @@ namespace refplayer
     class PlayerEventListener
     {
     public:
+        virtual ~PlayerEventListener() = default;
         virtual void onEvent(const std::string &eventName, const std::string &sessionId, const Json::Value &params) = 0;
     };
 }
