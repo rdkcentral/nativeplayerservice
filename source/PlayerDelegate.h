@@ -100,9 +100,9 @@ namespace refplayer
         void handleGetPreferredLanguages(const std::string &request, std::string &response);
 
     private:
-        RefPlayer *m_playerInstance;        // Pointer to the player instance
-        std::string m_activeSessionId;              // Store the active session ID
-        std::unique_ptr<PlayerEventListener> m_playerEvent; // Reference to the player event handler
+        RefPlayer *m_playerInstance{nullptr};                  // Pointer to the player instance
+        std::string m_activeSessionId{};                        // Store the active session ID
+        std::unique_ptr<PlayerEventListener> m_playerEvent{};   // Reference to the player event handler
     };
 } // namespace refplayer
 
