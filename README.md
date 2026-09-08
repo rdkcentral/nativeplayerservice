@@ -36,4 +36,4 @@ websocat ws://10.0.0.11:10101
 {"id":"123454","jsonrpc":"2.0","result":{"message":"Session is not initialized.","status":false}}
 ```
 ## Reference
-[AAMP](https://github.com/rdkcentral//aamp)
+[AAMP](https://github.com/rdkcentral/aamp)

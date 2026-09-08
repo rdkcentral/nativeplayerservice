@@ -38,7 +38,6 @@ namespace nativeplayer
         // Session operations
         void handleOpenSession(const std::string &request, std::string &response);
         void handleGetSessionInfo(const std::string &request, std::string &response);
-        void handleSetupSession(const std::string &request, std::string &response);
         void handleCloseSession(const std::string &request, std::string &response);
 
         // Playback operations
@@ -99,6 +98,8 @@ namespace nativeplayer
         void handleSetAppName(const std::string &request, std::string &response);
         void handleSetPreferredLanguages(const std::string &request, std::string &response);
         void handleGetPreferredLanguages(const std::string &request, std::string &response);
+
+        bool validateSession(const std::string &request, Json::Value &requestJson,std::string &response);
 
     private:
         NativePlayer *m_playerInstance{nullptr};                  // Pointer to the player instance

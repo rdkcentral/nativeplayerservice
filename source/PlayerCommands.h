@@ -39,7 +39,7 @@ namespace nativeplayer
         // Player related methods
         static constexpr auto NRP_METHOD_OPEN_SESSION = NRP_METHOD_BASE "openSession";
         static constexpr auto NRP_METHOD_GET_SESSION_INFO = NRP_METHOD_BASE "getSessionInfo";
-        static constexpr auto NRP_METHOD_SETUP_SESSION = NRP_METHOD_BASE "setupSession";
+
         static constexpr auto NRP_METHOD_PLAY = NRP_METHOD_BASE "play";
         static constexpr auto NRP_METHOD_STOP = NRP_METHOD_BASE "stop";
         static constexpr auto NRP_METHOD_SEEK = NRP_METHOD_BASE "seek";

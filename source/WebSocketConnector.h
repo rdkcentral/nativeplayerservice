@@ -37,7 +37,7 @@ namespace nativeplayer
     public:
         WebSocketConnector(std::unique_ptr<PlayerDelegate> playerDelegate, std::unique_ptr<FireboltConnector> fireboltConnector = nullptr);
 
-        // This is a singleton, so no copying or assignment allowed
+        // Non-copyable
         WebSocketConnector(const WebSocketConnector &) = delete;
         WebSocketConnector &operator=(const WebSocketConnector &) = delete;
         ~WebSocketConnector() = default;

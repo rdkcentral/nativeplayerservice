@@ -118,10 +118,6 @@ namespace nativeplayer
                             { playerDelegate().handleGetSessionInfo(request, response); });
         LOG(LogLevel::TRACE, "Binding ", NRP_METHOD_GET_SESSION_INFO, " method status: ", (status ? "Success" : "Failure"));
 
-        status = bindMethod(NRP_METHOD_SETUP_SESSION, [this](const std::string &request, std::string &response)
-                            { playerDelegate().handleSetupSession(request, response); });
-        LOG(LogLevel::TRACE, "Binding ", NRP_METHOD_SETUP_SESSION, " method status: ", (status ? "Success" : "Failure"));
-
         status = bindMethod(NRP_METHOD_PLAY, [this](const std::string &request, std::string &response)
                             { playerDelegate().handlePlay(request, response); });
         LOG(LogLevel::TRACE, "Binding ", NRP_METHOD_PLAY, " method status: ", (status ? "Success" : "Failure"));
