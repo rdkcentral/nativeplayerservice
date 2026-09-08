@@ -99,15 +99,21 @@ namespace refplayer
     void PlayerDelegate::handleStop(const std::string &request, std::string &response)
     {
         LOG(LogLevel::INFO, "Received stop request: ", request);
-        if (m_playerInstance && !m_activeSessionId.empty())
-        {
-            m_playerInstance->stop();
-            response = "{\"status\": true, \"message\": \"Playback stopped successfully.\"}";
-        }
-        else
+        if (!m_playerInstance || m_activeSessionId.empty())
         {
             response = "{\"status\": false, \"message\": \"No active session found.\"}";
+            return;
         }
+
+        Json::Value requestJson;
+        if (!convertRawStringToJson(request, requestJson) || !isValidSession(requestJson, m_activeSessionId))
+        {
+            response = "{\"status\": false, \"message\": \"Invalid or missing 'sessionId' parameter.\"}";
+            return;
+        }
+
+        m_playerInstance->stop();
+        response = "{\"status\": true, \"message\": \"Playback stopped successfully.\"}";
     }
     void PlayerDelegate::handleGetSessionInfo(const std::string &request, std::string &response)
     {
