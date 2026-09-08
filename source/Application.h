@@ -17,12 +17,12 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_APPLICATION_H
-#define REFPLAYER_APPLICATION_H
+#ifndef NATIVEPLAYER_APPLICATION_H
+#define NATIVEPLAYER_APPLICATION_H
 #include <string>
 #include <memory>
 #include "IConnector.h"
-namespace refplayer
+namespace nativeplayer
 {
 
     class Application
@@ -38,5 +38,5 @@ namespace refplayer
         std::unique_ptr<IConnector> m_Connector;
     };
 
-} // namespace refplayer
-#endif // REFPLAYER_APPLICATION_H
+} // namespace nativeplayer
+#endif // NATIVEPLAYER_APPLICATION_H

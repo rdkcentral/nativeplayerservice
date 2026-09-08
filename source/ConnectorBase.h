@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_CONNECTOR_BASE_H
-#define REFPLAYER_CONNECTOR_BASE_H
+#ifndef NATIVEPLAYER_CONNECTOR_BASE_H
+#define NATIVEPLAYER_CONNECTOR_BASE_H
 
 #include <memory>
 #include <utility>
@@ -27,7 +27,7 @@
 #include "PlayerDelegate.h"
 #include "FireboltConnector.h"
 
-namespace refplayer
+namespace nativeplayer
 {
 
     class PlayerEventAdapter : public PlayerEventListener
@@ -111,6 +111,6 @@ namespace refplayer
         std::unique_ptr<FireboltConnector> m_fireboltConnector;
  
     };
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_CONNECTOR_BASE_H
+#endif // NATIVEPLAYER_CONNECTOR_BASE_H

@@ -17,15 +17,15 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_UTILS_H
-#define REFPLAYER_UTILS_H
+#ifndef NATIVEPLAYER_UTILS_H
+#define NATIVEPLAYER_UTILS_H
 
 #include <string>
 #include <json/json.h>
 #include <ctime>
 #include <uuid/uuid.h>
 #include "Logger.h"
-namespace refplayer
+namespace nativeplayer
 {
 
     inline bool isValidSession(const Json::Value &request, const std::string &activeSessionId)
@@ -165,6 +165,6 @@ namespace refplayer
         }
     }
 
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_UTILS_H
+#endif // NATIVEPLAYER_UTILS_H

@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_FIREBOLT_CONNECTOR_H
-#define REFPLAYER_FIREBOLT_CONNECTOR_H
+#ifndef NATIVEPLAYER_FIREBOLT_CONNECTOR_H
+#define NATIVEPLAYER_FIREBOLT_CONNECTOR_H
 #include <cstdlib>
 #include <string>
 #include <mutex>
 #include <condition_variable>
 
-namespace refplayer
+namespace nativeplayer
 {
 
     class FireboltConnector
@@ -50,5 +50,5 @@ namespace refplayer
         void setFireboltConnected(bool connected);
     };
 
-} // namespace refplayer
-#endif // REFPLAYER_FIREBOLT_CONNECTOR_H
+} // namespace nativeplayer
+#endif // NATIVEPLAYER_FIREBOLT_CONNECTOR_H

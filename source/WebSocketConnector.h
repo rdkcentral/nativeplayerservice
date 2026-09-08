@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_WEBSOCKETCONNECTOR_H
-#define REFPLAYER_WEBSOCKETCONNECTOR_H
+#ifndef NATIVEPLAYER_WEBSOCKETCONNECTOR_H
+#define NATIVEPLAYER_WEBSOCKETCONNECTOR_H
 #include <string>
 #include <functional>
 #include <memory>
@@ -28,7 +28,7 @@
 #include "PlayerEvent.h"
 #include "ConnectorBase.h"
 #include "PlayerCommands.h"
-namespace refplayer
+namespace nativeplayer
 {
 
 
@@ -59,5 +59,5 @@ namespace refplayer
 
         std::shared_ptr<rpcserver::IAbstractRpcServer> m_wsRpcServer;
     };
-} // namespace refplayer
-#endif // REFPLAYER_WEBSOCKETCONNECTOR_H
+} // namespace nativeplayer
+#endif // NATIVEPLAYER_WEBSOCKETCONNECTOR_H

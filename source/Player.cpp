@@ -29,16 +29,16 @@
 #include "Logger.h"
 // AAMP event types
 #include <AampEvent.h>
-namespace refplayer
+namespace nativeplayer
 {
-    RefPlayer *RefPlayer::m_instance = nullptr;
+    NativePlayer *NativePlayer::m_instance = nullptr;
 
-    RefPlayer *RefPlayer::getInstance()
+    NativePlayer *NativePlayer::getInstance()
     {
         if (!m_instance)
         {
-            m_instance = new RefPlayer();
-            LOG(LogLevel::INFO, "RefPlayer instance created.");
+            m_instance = new NativePlayer();
+            LOG(LogLevel::INFO, "NativePlayer instance created.");
             if (m_instance->initializePlayer())
             {
                 LOG(LogLevel::INFO, "Player initialized successfully.");
@@ -55,7 +55,7 @@ namespace refplayer
         return m_instance;
     }
 
-    void RefPlayer::shutdownPlayer()
+    void NativePlayer::shutdownPlayer()
     {
         if (m_player)
         {
@@ -77,14 +77,16 @@ namespace refplayer
             m_eventThread = nullptr;
         }
     }
-    RefPlayer::RefPlayer()
+    NativePlayer::NativePlayer()
         : m_playerReady(false),
           m_player(nullptr),
-          m_eventListener(nullptr)
+          m_eventListener(nullptr),
+          m_eventLoop(nullptr),
+          m_eventThread(nullptr)
     {
     }
 
-    gpointer RefPlayer::RefPlayerStreamThread(gpointer arg)
+    gpointer NativePlayer::RefPlayerStreamThread(gpointer arg)
     {
         // Thread implementation for AAMP GStreamer player stream
         m_eventLoop = g_main_loop_new(nullptr, FALSE);
@@ -95,7 +97,7 @@ namespace refplayer
         return nullptr;
     }
 
-    bool RefPlayer::initializePlayer()
+    bool NativePlayer::initializePlayer()
     {
         // Initialize the gstreamer player instancurle
         gst_init(nullptr, nullptr);
@@ -110,7 +112,7 @@ namespace refplayer
         }
 
         m_eventThread = g_thread_new("RefPlayerStreamThread", [](gpointer arg) -> gpointer
-                                     { return static_cast<RefPlayer *>(arg)->RefPlayerStreamThread(arg); }, this);
+                                     { return static_cast<NativePlayer *>(arg)->RefPlayerStreamThread(arg); }, this);
 
         // Keep full AAMP verbosity for troubleshooting.
         AampLogManager::lockLogLevel(false);
@@ -128,7 +130,7 @@ namespace refplayer
             m_player->mConfig.SetConfigValue(
                 AAMP_APPLICATION_SETTING,
                 eAAMPConfig_UserAgent,
-                std::string("RefPlayer/1.0"));
+                std::string("NativePlayer/1.0"));
             // Register event listener
             m_eventListener = new RefPlayerEventListener();
             m_player->RegisterEvents(m_eventListener);
@@ -142,7 +144,7 @@ namespace refplayer
 
         return m_playerReady;
     }
-    RefPlayer::~RefPlayer()
+    NativePlayer::~NativePlayer()
     {
         // Destructor implementation
 
@@ -162,19 +164,19 @@ namespace refplayer
         }
     }
 
-    void RefPlayer::setInstanceId(const std::string &instanceId)
+    void NativePlayer::setInstanceId(const std::string &instanceId)
     {
         // Set instance ID implementation
         m_player->SetAppName(instanceId.c_str());
     }
 
-    bool RefPlayer::isPlaying() const
+    bool NativePlayer::isPlaying() const
     {
         // Check if playing implementation
         return false;
     }
 
-    bool RefPlayer::play(const std::string &url)
+    bool NativePlayer::play(const std::string &url)
     {
         // locator,autoplay,contentType,firstAttempt,finalAttempt,traceUUID,audioDecoderStreamSync
         if (!m_playerReady || !m_player)
@@ -193,7 +195,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::stop()
+    bool NativePlayer::stop()
     {
         if (!m_playerReady || !m_player)
         {
@@ -205,7 +207,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::pause()
+    bool NativePlayer::pause()
     {
         // Pause implementation
         if (!m_playerReady || !m_player)
@@ -218,7 +220,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::resume()
+    bool NativePlayer::resume()
     {
         // Resume implementation
         if (!m_playerReady || !m_player)
@@ -231,7 +233,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::isPaused() const
+    bool NativePlayer::isPaused() const
     {
         // Check if paused implementation
         if (!m_playerReady || !m_player)
@@ -242,7 +244,7 @@ namespace refplayer
         return m_player->GetPlaybackRate() == 0.0;
     }
 
-    bool RefPlayer::seek(double position, bool keepPaused)
+    bool NativePlayer::seek(double position, bool keepPaused)
     {
         if (!m_playerReady || !m_player)
         {
@@ -254,7 +256,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::seekToLive(bool keepPaused)
+    bool NativePlayer::seekToLive(bool keepPaused)
     {
         if (!m_playerReady || !m_player)
         {
@@ -266,7 +268,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::setRate(float rate, int overshootCorrection)
+    bool NativePlayer::setRate(float rate, int overshootCorrection)
     {
         if (!m_playerReady || !m_player)
         {
@@ -278,7 +280,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::setPlaybackSpeed(float speed)
+    bool NativePlayer::setPlaybackSpeed(float speed)
     {
         if (!m_playerReady || !m_player)
         {
@@ -290,7 +292,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::pauseAt(double position)
+    bool NativePlayer::pauseAt(double position)
     {
         if (!m_playerReady || !m_player)
         {
@@ -302,7 +304,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::setRateAndSeek(int rate, double position)
+    bool NativePlayer::setRateAndSeek(int rate, double position)
     {
         if (!m_playerReady || !m_player)
         {
@@ -314,7 +316,7 @@ namespace refplayer
         return true;
     }
 
-    std::string RefPlayer::getState()
+    std::string NativePlayer::getState()
     {
         if (!m_playerReady || !m_player)
         {
@@ -359,7 +361,7 @@ namespace refplayer
         }
     }
 
-    double RefPlayer::getPlaybackPosition()
+    double NativePlayer::getPlaybackPosition()
     {
         if (!m_playerReady || !m_player)
         {
@@ -369,7 +371,7 @@ namespace refplayer
         return m_player->GetPlaybackPosition();
     }
 
-    double RefPlayer::getPlaybackDuration()
+    double NativePlayer::getPlaybackDuration()
     {
         if (!m_playerReady || !m_player)
         {
@@ -379,7 +381,7 @@ namespace refplayer
         return m_player->GetPlaybackDuration();
     }
 
-    int RefPlayer::getPlaybackRate()
+    int NativePlayer::getPlaybackRate()
     {
         if (!m_playerReady || !m_player)
         {
@@ -389,7 +391,7 @@ namespace refplayer
         return m_player->GetPlaybackRate();
     }
 
-    bool RefPlayer::isLive()
+    bool NativePlayer::isLive()
     {
         if (!m_playerReady || !m_player)
         {
@@ -399,7 +401,7 @@ namespace refplayer
         return m_player->IsLive();
     }
 
-    bool RefPlayer::setVideoMute(bool muted)
+    bool NativePlayer::setVideoMute(bool muted)
     {
         if (!m_playerReady || !m_player)
         {
@@ -411,7 +413,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::getVideoMute()
+    bool NativePlayer::getVideoMute()
     {
         if (!m_playerReady || !m_player)
         {
@@ -421,7 +423,7 @@ namespace refplayer
         return m_player->GetVideoMute();
     }
 
-    bool RefPlayer::setAudioVolume(int volume)
+    bool NativePlayer::setAudioVolume(int volume)
     {
         if (!m_playerReady || !m_player)
         {
@@ -433,7 +435,7 @@ namespace refplayer
         return true;
     }
 
-    int RefPlayer::getAudioVolume()
+    int NativePlayer::getAudioVolume()
     {
         if (!m_playerReady || !m_player)
         {
@@ -443,7 +445,7 @@ namespace refplayer
         return m_player->GetAudioVolume();
     }
 
-    std::string RefPlayer::getAudioLanguage()
+    std::string NativePlayer::getAudioLanguage()
     {
         if (!m_playerReady || !m_player)
         {
@@ -453,7 +455,7 @@ namespace refplayer
         return m_player->GetAudioLanguage();
     }
 
-    std::string RefPlayer::getAvailableAudioTracks(bool allTracks)
+    std::string NativePlayer::getAvailableAudioTracks(bool allTracks)
     {
         if (!m_playerReady || !m_player)
         {
@@ -463,7 +465,7 @@ namespace refplayer
         return m_player->GetAvailableAudioTracks(allTracks);
     }
 
-    bool RefPlayer::setAudioTrack(int trackId)
+    bool NativePlayer::setAudioTrack(int trackId)
     {
         if (!m_playerReady || !m_player)
         {
@@ -475,7 +477,7 @@ namespace refplayer
         return true;
     }
 
-    int RefPlayer::getAudioTrack()
+    int NativePlayer::getAudioTrack()
     {
         if (!m_playerReady || !m_player)
         {
@@ -485,7 +487,7 @@ namespace refplayer
         return m_player->GetAudioTrack();
     }
 
-    std::string RefPlayer::getAudioTrackInfo()
+    std::string NativePlayer::getAudioTrackInfo()
     {
         if (!m_playerReady || !m_player)
         {
@@ -495,7 +497,7 @@ namespace refplayer
         return m_player->GetAudioTrackInfo();
     }
 
-    bool RefPlayer::setSubtitleMute(bool muted)
+    bool NativePlayer::setSubtitleMute(bool muted)
     {
         if (!m_playerReady || !m_player)
         {
@@ -507,7 +509,7 @@ namespace refplayer
         return true;
     }
 
-    std::string RefPlayer::getAvailableTextTracks(bool allTracks)
+    std::string NativePlayer::getAvailableTextTracks(bool allTracks)
     {
         if (!m_playerReady || !m_player)
         {
@@ -517,7 +519,7 @@ namespace refplayer
         return m_player->GetAvailableTextTracks(allTracks);
     }
 
-    bool RefPlayer::setTextTrack(int trackId)
+    bool NativePlayer::setTextTrack(int trackId)
     {
         if (!m_playerReady || !m_player)
         {
@@ -529,7 +531,7 @@ namespace refplayer
         return true;
     }
 
-    int RefPlayer::getTextTrack()
+    int NativePlayer::getTextTrack()
     {
         if (!m_playerReady || !m_player)
         {
@@ -539,7 +541,7 @@ namespace refplayer
         return m_player->GetTextTrack();
     }
 
-    int64_t RefPlayer::getVideoBitrate()
+    int64_t NativePlayer::getVideoBitrate()
     {
         if (!m_playerReady || !m_player)
         {
@@ -549,7 +551,7 @@ namespace refplayer
         return static_cast<int64_t>(m_player->GetVideoBitrate());
     }
 
-    bool RefPlayer::setVideoBitrate(int64_t bitrate)
+    bool NativePlayer::setVideoBitrate(int64_t bitrate)
     {
         if (!m_playerReady || !m_player)
         {
@@ -561,7 +563,7 @@ namespace refplayer
         return true;
     }
 
-    std::vector<int64_t> RefPlayer::getVideoBitrates()
+    std::vector<int64_t> NativePlayer::getVideoBitrates()
     {
         if (!m_playerReady || !m_player)
         {
@@ -573,7 +575,7 @@ namespace refplayer
         return bitrates;
     }
 
-    bool RefPlayer::setInitialBitrate(int64_t bitrate)
+    bool NativePlayer::setInitialBitrate(int64_t bitrate)
     {
         if (!m_playerReady || !m_player)
         {
@@ -585,7 +587,7 @@ namespace refplayer
         return true;
     }
 
-    int64_t RefPlayer::getInitialBitrate()
+    int64_t NativePlayer::getInitialBitrate()
     {
         if (!m_playerReady || !m_player)
         {
@@ -595,7 +597,7 @@ namespace refplayer
         return static_cast<int64_t>(m_player->GetInitialBitrate());
     }
 
-    bool RefPlayer::setMinimumBitrate(int64_t bitrate)
+    bool NativePlayer::setMinimumBitrate(int64_t bitrate)
     {
         if (!m_playerReady || !m_player)
         {
@@ -607,7 +609,7 @@ namespace refplayer
         return true;
     }
 
-    int64_t RefPlayer::getMinimumBitrate()
+    int64_t NativePlayer::getMinimumBitrate()
     {
         if (!m_playerReady || !m_player)
         {
@@ -617,7 +619,7 @@ namespace refplayer
         return static_cast<int64_t>(m_player->GetMinimumBitrate());
     }
 
-    bool RefPlayer::setMaximumBitrate(int64_t bitrate)
+    bool NativePlayer::setMaximumBitrate(int64_t bitrate)
     {
         if (!m_playerReady || !m_player)
         {
@@ -629,7 +631,7 @@ namespace refplayer
         return true;
     }
 
-    int64_t RefPlayer::getMaximumBitrate()
+    int64_t NativePlayer::getMaximumBitrate()
     {
         if (!m_playerReady || !m_player)
         {
@@ -639,7 +641,7 @@ namespace refplayer
         return static_cast<int64_t>(m_player->GetMaximumBitrate());
     }
 
-    bool RefPlayer::setLicenseServerURL(const std::string &url)
+    bool NativePlayer::setLicenseServerURL(const std::string &url)
     {
         if (!m_playerReady || !m_player)
         {
@@ -651,7 +653,7 @@ namespace refplayer
         return true;
     }
 
-    std::string RefPlayer::getDRM()
+    std::string NativePlayer::getDRM()
     {
         if (!m_playerReady || !m_player)
         {
@@ -661,7 +663,7 @@ namespace refplayer
         return m_player->GetDRM();
     }
 
-    bool RefPlayer::setPreferredDRM(const std::string &drmType)
+    bool NativePlayer::setPreferredDRM(const std::string &drmType)
     {
         if (!m_playerReady || !m_player)
         {
@@ -685,7 +687,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::configureSession(const std::string &configJson)
+    bool NativePlayer::configureSession(const std::string &configJson)
     {
         if (!m_playerReady || !m_player)
         {
@@ -696,7 +698,7 @@ namespace refplayer
         return m_player->InitAAMPConfig(configJson.c_str());
     }
 
-    std::string RefPlayer::getAAMPConfig()
+    std::string NativePlayer::getAAMPConfig()
     {
         if (!m_playerReady || !m_player)
         {
@@ -706,7 +708,7 @@ namespace refplayer
         return m_player->GetAAMPConfig();
     }
 
-    bool RefPlayer::setAppName(const std::string &name)
+    bool NativePlayer::setAppName(const std::string &name)
     {
         if (!m_playerReady || !m_player)
         {
@@ -718,7 +720,7 @@ namespace refplayer
         return true;
     }
 
-    bool RefPlayer::setPreferredLanguages(const std::string &languageList,
+    bool NativePlayer::setPreferredLanguages(const std::string &languageList,
                                                   const std::string &rendition,
                                                   const std::string &type,
                                                   const std::string &codecList,
@@ -739,7 +741,7 @@ namespace refplayer
         return true;
     }
 
-    std::string RefPlayer::getPreferredLanguages()
+    std::string NativePlayer::getPreferredLanguages()
     {
         if (!m_playerReady || !m_player)
         {
@@ -749,7 +751,7 @@ namespace refplayer
         return m_player->GetPreferredLanguages();
     }
 
-    void RefPlayer::setEventCallback(RefPlayerEventListener::EventCallback cb)
+    void NativePlayer::setEventCallback(RefPlayerEventListener::EventCallback cb)
     {
         if (m_eventListener)
         {
@@ -1252,4 +1254,4 @@ namespace refplayer
         LOG(LogLevel::DEBUG, "Dispatching RPC event: ", eventName);
         cb(eventName, params);
     }
-} // namespace refplayer
+} // namespace nativeplayer

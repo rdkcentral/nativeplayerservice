@@ -34,7 +34,7 @@ using namespace std;
 //      "message" : "Detailed message about the operation"
 //     If the operation is succesful, there can be additional fields in the result object, depending on the method.
 // }
-namespace refplayer
+namespace nativeplayer
 {
     WebSocketConnector::WebSocketConnector(std::unique_ptr<PlayerDelegate> playerDelegate, std::unique_ptr<FireboltConnector> fireboltConnector)
         : ConnectorBase(std::move(playerDelegate), std::move(fireboltConnector))
@@ -318,4 +318,4 @@ namespace refplayer
         convertRawStringToJson(responseStr, response);
     }
 
-} // namespace refplayer
+} // namespace nativeplayer

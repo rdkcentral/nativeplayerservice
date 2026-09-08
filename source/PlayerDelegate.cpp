@@ -21,7 +21,7 @@
 #include <cstdlib>
 #include <json/json.h>
 #include "PlayerUtils.h"
-namespace refplayer
+namespace nativeplayer
 {
 
     void PlayerDelegate::setPlayerEventListener(std::unique_ptr<PlayerEventListener> playerEvent)
@@ -35,7 +35,7 @@ namespace refplayer
         // Check whether the play instance is already created or not, if not create a new instance of the player
         if (!m_playerInstance)
         {
-            m_playerInstance = RefPlayer::getInstance();
+            m_playerInstance = NativePlayer::getInstance();
             if (m_playerInstance)
             {
                 LOG(LogLevel::INFO, "Attaching AAMP event callback to RPC server.");
@@ -1124,4 +1124,4 @@ namespace refplayer
         std::string langList = m_playerInstance->getPreferredLanguages();
         response = std::string("{\"languageList\": ") + Json::valueToQuotedString(langList.c_str()) + "}";
     }
-} // namespace refplayer
+} // namespace nativeplayer

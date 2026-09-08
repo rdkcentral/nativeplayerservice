@@ -15,9 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#set PRIVATE_CONNECTION as off by default
-option(PRIVATE_CONNECTION "Enable private connection" OFF)
-
 find_package(Threads REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Aamp REQUIRED)
@@ -36,8 +33,8 @@ pkg_check_modules(GSTREAMERVIDEO REQUIRED gstreamer-video-1.0)
 
 include_directories(${GLIB_INCLUDE_DIRS} ${GSTREAMER_INCLUDE_DIRS} ${GSTREAMERBASE_INCLUDE_DIRS} ${GSTREAMERVIDEO_INCLUDE_DIRS})
 
-set(REFPLAYER_SOURCES)
-list(APPEND REFPLAYER_SOURCES
+set(NATIVEPLAYER_SOURCES)
+list(APPEND NATIVEPLAYER_SOURCES
     Application.cpp
     main.cpp
     Player.cpp
@@ -45,17 +42,17 @@ list(APPEND REFPLAYER_SOURCES
     PlayerDelegate.cpp
 )
 
-list(APPEND REFPLAYER_SOURCES
+list(APPEND NATIVEPLAYER_SOURCES
     WebSocketConnector.cpp
 )
-add_executable(RefPlayer ${REFPLAYER_SOURCES})
+add_executable(nativeplayer ${NATIVEPLAYER_SOURCES})
 
-target_include_directories(RefPlayer
+target_include_directories(nativeplayer
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(RefPlayer
+target_link_libraries(nativeplayer
     PRIVATE
         ${GLIB2_LIBRARIES}
         ${GSTREAMER_LIBRARIES}
@@ -67,16 +64,12 @@ target_link_libraries(RefPlayer
         uuid
         FireboltTransport::FireboltTransport
         FireboltClient::FireboltClient
+        WSRPCSERVER::WSRPCSERVER
 )
 
-if(PRIVATE_CONNECTION)
-    target_compile_definitions(RefPlayer PRIVATE USE_WEBSOCKET_CONNECTOR)
-    target_link_libraries(RefPlayer PRIVATE WSRPCSERVER::WSRPCSERVER)
-endif(PRIVATE_CONNECTION)
-
-install(TARGETS RefPlayer
+install(TARGETS nativeplayer
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 if(BUILD_TESTING)
-    add_test(NAME RefPlayerRuns COMMAND RefPlayer)
+    add_test(NAME RefPlayerRuns COMMAND nativeplayer)
 endif()

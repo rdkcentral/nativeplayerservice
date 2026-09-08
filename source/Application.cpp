@@ -25,7 +25,7 @@
 #include "PlayerDelegate.h"
 #include "ConnectorFactory.h"
 
-namespace refplayer
+namespace nativeplayer
 {
 
     int Application::run()
@@ -59,7 +59,7 @@ namespace refplayer
 
     std::string Application::title() const
     {
-        return "RefPlayer 1.0";
+        return "NativePlayer 1.0";
     }
 
-} // namespace refplayer
+} // namespace nativeplayer

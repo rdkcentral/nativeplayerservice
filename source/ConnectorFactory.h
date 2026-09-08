@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_CONNECTORFACTORY_H
-#define REFPLAYER_CONNECTORFACTORY_H
+#ifndef NATIVEPLAYER_CONNECTORFACTORY_H
+#define NATIVEPLAYER_CONNECTORFACTORY_H
 
 #include <memory>
 #include "IConnector.h"
@@ -27,7 +27,7 @@
 
 #include "WebSocketConnector.h"
 
-namespace refplayer
+namespace nativeplayer
 {
     enum class ConnectorType
     {
@@ -53,6 +53,6 @@ namespace refplayer
         }
     };
 
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_CONNECTORFACTORY_H
+#endif // NATIVEPLAYER_CONNECTORFACTORY_H

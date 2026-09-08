@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_PLAYER_H
-#define REFPLAYER_PLAYER_H
+#ifndef NATIVEPLAYER_PLAYER_H
+#define NATIVEPLAYER_PLAYER_H
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -30,7 +30,7 @@
 #include <AampEventListener.h>
 #include <glib.h> // For GMainLoop
 
-namespace refplayer
+namespace nativeplayer
 {
 
     class RefPlayerEventListener : public AAMPEventObjectListener
@@ -51,10 +51,10 @@ namespace refplayer
         EventCallback m_eventCallback;
     };
 
-    class RefPlayer
+    class NativePlayer
     {
     public:
-        static RefPlayer *getInstance();
+        static NativePlayer *getInstance();
         void setInstanceId(const std::string &instanceId);
         bool isPlaying() const;
         bool play(const std::string &url);
@@ -124,10 +124,10 @@ namespace refplayer
         void setEventCallback(RefPlayerEventListener::EventCallback cb);
 
     private:
-        static RefPlayer *m_instance;
+        static NativePlayer *m_instance;
 
-        RefPlayer();
-        ~RefPlayer();
+        NativePlayer();
+        ~NativePlayer();
         bool initializePlayer();
         void shutdownPlayer();
         bool m_playerReady;
@@ -139,6 +139,6 @@ namespace refplayer
         GThread *m_eventThread;
 
         gpointer RefPlayerStreamThread(gpointer arg);
-    }; // class RefPlayer
-} // namespace refplayer
-#endif // REFPLAYER_PLAYER_H
+    }; // class NativePlayer
+} // namespace nativeplayer
+#endif // NATIVEPLAYER_PLAYER_H

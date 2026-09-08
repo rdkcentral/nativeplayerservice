@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_PLAYER_DELEGATE_H
-#define REFPLAYER_PLAYER_DELEGATE_H
+#ifndef NATIVEPLAYER_PLAYER_DELEGATE_H
+#define NATIVEPLAYER_PLAYER_DELEGATE_H
 #include "Player.h"
 #include "PlayerEvent.h"
 #include <memory>
 #include <string>
 
-namespace refplayer
+namespace nativeplayer
 {
     class PlayerDelegate
     {
@@ -101,10 +101,10 @@ namespace refplayer
         void handleGetPreferredLanguages(const std::string &request, std::string &response);
 
     private:
-        RefPlayer *m_playerInstance{nullptr};                  // Pointer to the player instance
+        NativePlayer *m_playerInstance{nullptr};                  // Pointer to the player instance
         std::string m_activeSessionId{};                        // Store the active session ID
         std::unique_ptr<PlayerEventListener> m_playerEvent{};   // Reference to the player event handler
     };
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_PLAYER_DELEGATE_H
+#endif // NATIVEPLAYER_PLAYER_DELEGATE_H

@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef REFPLAYER_ICONNECTOR_H
-#define REFPLAYER_ICONNECTOR_H
+#ifndef NATIVEPLAYER_ICONNECTOR_H
+#define NATIVEPLAYER_ICONNECTOR_H
 
-namespace refplayer
+namespace nativeplayer
 {
 
     class IConnector
@@ -36,6 +36,6 @@ namespace refplayer
         virtual void shutdown() = 0;
     };
 
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_ICONNECTOR_H
+#endif // NATIVEPLAYER_ICONNECTOR_H

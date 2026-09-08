@@ -22,7 +22,7 @@
 #include <iostream>
 #include <firebolt/firebolt.h>
 
-namespace refplayer
+namespace nativeplayer
 {
 	bool FireboltConnector::connectToFirebolt()
 	{
@@ -120,4 +120,4 @@ namespace refplayer
 		return true;
 	}
 
-} // namespace refplayer
+} // namespace nativeplayer

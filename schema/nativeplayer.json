@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "name": "RefPlayer",
+      "name": "NativePlayer",
       "url": "ws://localhost:10101"
     }
   ],
@@ -126,7 +126,7 @@
   },
   "methods": [
     {
-      "name": "org.rdk.player.openSession",
+      "name": "org.rdk.nativeplayer.openSession",
       "summary": "Open a new player session",
       "description": "Allocates a player instance and associates it with the calling WebSocket connection. Must be called before any playback or configuration method. Returns a sessionId that is echoed back in all subsequent responses for correlation.",
       "tags": [
@@ -196,7 +196,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.configureSession",
+      "name": "org.rdk.nativeplayer.configureSession",
       "summary": "Apply configuration to an open session",
       "description": "Applies AAMP configuration key-value pairs to the session. Must be called after openSession and before tune.",
       "tags": [
@@ -277,7 +277,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.closeSession",
+      "name": "org.rdk.nativeplayer.closeSession",
       "summary": "Close and release a player session",
       "description": "Stops any active playback, releases decoder and DRM resources, and destroys the session. After this call the sessionId is invalid. The WebSocket connection itself is not closed.",
       "tags": [
@@ -334,7 +334,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.play",
+      "name": "org.rdk.nativeplayer.play",
       "summary": "Start playback of a media stream",
       "description": "Instructs the AAMP player to tune to the given URL. Optionally auto-starts playback and accepts a content type hint and trace UUID for diagnostics.",
       "tags": [
@@ -442,7 +442,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.stop",
+      "name": "org.rdk.nativeplayer.stop",
       "summary": "Stop playback",
       "description": "Stops the current playback and releases decoder resources. The player returns to the idle state.",
       "tags": [
@@ -486,7 +486,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.seek",
+      "name": "org.rdk.nativeplayer.seek",
       "summary": "Seek to a position",
       "description": "Seeks to an absolute position in the stream (in seconds from the start). For live streams, position is relative to the live edge.",
       "tags": [
@@ -556,7 +556,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.seekToLive",
+      "name": "org.rdk.nativeplayer.seekToLive",
       "summary": "Seek to the live edge",
       "description": "Moves playback to the current live edge of a live or time-shifted stream.",
       "tags": [
@@ -613,7 +613,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setRate",
+      "name": "org.rdk.nativeplayer.setRate",
       "summary": "Set playback rate / trick-play speed",
       "description": "Sets the playback rate for trick-play. Rate 1=normal, 0=pause, 2=2x fast-forward, -2=2x rewind.",
       "tags": [
@@ -682,7 +682,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setPlaybackSpeed",
+      "name": "org.rdk.nativeplayer.setPlaybackSpeed",
       "summary": "Set playback speed",
       "description": "Sets the playback speed directly (equivalent to setRate without the overshoot correction option).",
       "tags": [
@@ -738,7 +738,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.pauseAt",
+      "name": "org.rdk.nativeplayer.pauseAt",
       "summary": "Schedule a pause at a future position",
       "description": "Requests the player to automatically pause when playback reaches the specified position. Pass a negative value to cancel a previously scheduled pause.",
       "tags": [
@@ -794,7 +794,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setRateAndSeek",
+      "name": "org.rdk.nativeplayer.setRateAndSeek",
       "summary": "Atomically set rate and seek",
       "description": "Combines a rate change and a seek into a single atomic operation, avoiding the visual glitch that can occur when calling them separately.",
       "tags": [
@@ -863,7 +863,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getState",
+      "name": "org.rdk.nativeplayer.getState",
       "summary": "Get current player state",
       "description": "Returns the current lifecycle state of the AAMP player instance.",
       "tags": [
@@ -915,7 +915,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getPlaybackPosition",
+      "name": "org.rdk.nativeplayer.getPlaybackPosition",
       "summary": "Get current playback position",
       "tags": [
         {
@@ -967,7 +967,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getPlaybackDuration",
+      "name": "org.rdk.nativeplayer.getPlaybackDuration",
       "summary": "Get total stream duration",
       "description": "Returns -1 for live streams without a known duration.",
       "tags": [
@@ -1020,7 +1020,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getPlaybackRate",
+      "name": "org.rdk.nativeplayer.getPlaybackRate",
       "summary": "Get current playback rate",
       "tags": [
         {
@@ -1072,7 +1072,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.isLive",
+      "name": "org.rdk.nativeplayer.isLive",
       "summary": "Check if stream is live",
       "tags": [
         {
@@ -1124,7 +1124,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setVideoMute",
+      "name": "org.rdk.nativeplayer.setVideoMute",
       "summary": "Mute or unmute the video plane",
       "description": "Blanks (mutes) or restores the video plane without affecting audio.",
       "tags": [
@@ -1180,7 +1180,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getVideoMute",
+      "name": "org.rdk.nativeplayer.getVideoMute",
       "summary": "Get video mute state",
       "tags": [
         {
@@ -1232,7 +1232,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setAudioVolume",
+      "name": "org.rdk.nativeplayer.setAudioVolume",
       "summary": "Set audio volume",
       "tags": [
         {
@@ -1289,7 +1289,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getAudioVolume",
+      "name": "org.rdk.nativeplayer.getAudioVolume",
       "summary": "Get audio volume",
       "tags": [
         {
@@ -1341,7 +1341,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getAudioLanguage",
+      "name": "org.rdk.nativeplayer.getAudioLanguage",
       "summary": "Get currently active audio language",
       "tags": [
         {
@@ -1393,7 +1393,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getAvailableAudioTracks",
+      "name": "org.rdk.nativeplayer.getAvailableAudioTracks",
       "summary": "List available audio tracks",
       "description": "Returns all audio tracks present in the current manifest.",
       "tags": [
@@ -1483,7 +1483,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setAudioTrack",
+      "name": "org.rdk.nativeplayer.setAudioTrack",
       "summary": "Select an audio track by index",
       "description": "Switches to the audio track at the specified index from getAvailableAudioTracks.",
       "tags": [
@@ -1540,7 +1540,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getAudioTrack",
+      "name": "org.rdk.nativeplayer.getAudioTrack",
       "summary": "Get index of active audio track",
       "tags": [
         {
@@ -1592,7 +1592,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getAudioTrackInfo",
+      "name": "org.rdk.nativeplayer.getAudioTrackInfo",
       "summary": "Get details of active audio track",
       "tags": [
         {
@@ -1652,7 +1652,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setSubtitleMute",
+      "name": "org.rdk.nativeplayer.setSubtitleMute",
       "summary": "Mute or unmute subtitles",
       "description": "Enables or suppresses subtitle rendering without changing the active text track selection.",
       "tags": [
@@ -1708,7 +1708,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getAvailableTextTracks",
+      "name": "org.rdk.nativeplayer.getAvailableTextTracks",
       "summary": "List available text/subtitle tracks",
       "tags": [
         {
@@ -1790,7 +1790,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setTextTrack",
+      "name": "org.rdk.nativeplayer.setTextTrack",
       "summary": "Select a text track by index",
       "tags": [
         {
@@ -1846,7 +1846,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getTextTrack",
+      "name": "org.rdk.nativeplayer.getTextTrack",
       "summary": "Get index of active text track",
       "tags": [
         {
@@ -1898,7 +1898,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.getVideoBitrate",
+      "name": "org.rdk.nativeplayer.getVideoBitrate",
       "summary": "Get current video bitrate",
       "tags": [
         {
@@ -1950,7 +1950,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setVideoBitrate",
+      "name": "org.rdk.nativeplayer.setVideoBitrate",
       "summary": "Lock the video bitrate",
       "description": "Pins ABR to the profile closest to the specified bitrate. Pass 0 to re-enable automatic ABR.",
       "tags": [
@@ -2007,7 +2007,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getVideoBitrates",
+      "name": "org.rdk.nativeplayer.getVideoBitrates",
       "summary": "List all available video bitrates",
       "tags": [
         {
@@ -2067,7 +2067,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setInitialBitrate",
+      "name": "org.rdk.nativeplayer.setInitialBitrate",
       "summary": "Set the startup bitrate hint",
       "description": "Hints to AAMP which bitrate profile to select at the start of the next tune. ABR may switch away after the initial segments are downloaded.",
       "tags": [
@@ -2124,7 +2124,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getInitialBitrate",
+      "name": "org.rdk.nativeplayer.getInitialBitrate",
       "summary": "Get the startup bitrate hint",
       "tags": [
         {
@@ -2176,7 +2176,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setMinimumBitrate",
+      "name": "org.rdk.nativeplayer.setMinimumBitrate",
       "summary": "Set the ABR minimum bitrate floor",
       "description": "Prevents AAMP from selecting any video profile below this bitrate during adaptive bitrate switching.",
       "tags": [
@@ -2233,7 +2233,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getMinimumBitrate",
+      "name": "org.rdk.nativeplayer.getMinimumBitrate",
       "summary": "Get the ABR minimum bitrate floor",
       "tags": [
         {
@@ -2285,7 +2285,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setMaximumBitrate",
+      "name": "org.rdk.nativeplayer.setMaximumBitrate",
       "summary": "Set the ABR maximum bitrate ceiling",
       "description": "Prevents AAMP from selecting any video profile above this bitrate during adaptive bitrate switching.",
       "tags": [
@@ -2342,7 +2342,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getMaximumBitrate",
+      "name": "org.rdk.nativeplayer.getMaximumBitrate",
       "summary": "Get the ABR maximum bitrate ceiling",
       "tags": [
         {
@@ -2394,7 +2394,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setLicenseServerURL",
+      "name": "org.rdk.nativeplayer.setLicenseServerURL",
       "summary": "Set the DRM license server URL",
       "description": "Overrides the license server URL for the active DRM system. Can be used to redirect license requests to a proxy.",
       "tags": [
@@ -2451,7 +2451,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getDRM",
+      "name": "org.rdk.nativeplayer.getDRM",
       "summary": "Get active DRM system",
       "tags": [
         {
@@ -2509,7 +2509,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setPreferredDRM",
+      "name": "org.rdk.nativeplayer.setPreferredDRM",
       "summary": "Set the preferred DRM system",
       "description": "Tells AAMP which DRM system to prefer when multiple are available in the manifest.",
       "tags": [
@@ -2570,7 +2570,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getAAMPConfig",
+      "name": "org.rdk.nativeplayer.getAAMPConfig",
       "summary": "Get current AAMP configuration",
       "tags": [
         {
@@ -2625,7 +2625,7 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.setAppName",
+      "name": "org.rdk.nativeplayer.setAppName",
       "summary": "Set the application name",
       "description": "Sets a human-readable application name included in AAMP diagnostic logs and telemetry.",
       "tags": [
@@ -2681,7 +2681,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.setPreferredLanguages",
+      "name": "org.rdk.nativeplayer.setPreferredLanguages",
       "summary": "Set preferred audio/text language preferences",
       "description": "Configures fine-grained language selection. All parameters are optional; omit to leave that dimension unchanged.",
       "tags": [
@@ -2781,7 +2781,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getPreferredLanguages",
+      "name": "org.rdk.nativeplayer.getPreferredLanguages",
       "summary": "Get the preferred language list",
       "tags": [
         {
@@ -2833,9 +2833,9 @@
       "paramStructure": "by-name"
     },
     {
-      "name": "org.rdk.player.register",
+      "name": "org.rdk.nativeplayer.register",
       "summary": "Register to server-pushed event notifications",
-      "description": "After registering, the server pushes matching events as JSON-RPC notifications (no id field),
+      "description": "After registering, the server pushes matching events as JSON-RPC notifications (no id field)",
       "tags": [
         {
           "name": "Event Register"
@@ -2889,7 +2889,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.unregister",
+      "name": "org.rdk.nativeplayer.unregister",
       "summary": "Unregister from event notifications",
       "tags": [
         {
@@ -2944,7 +2944,7 @@
       ]
     },
     {
-      "name": "org.rdk.player.getListeners",
+      "name": "org.rdk.nativeplayer.getListeners",
       "summary": "List active event listeners",
       "tags": [
         {

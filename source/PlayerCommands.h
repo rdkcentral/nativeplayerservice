@@ -17,16 +17,15 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_PLAYERCOMMANDS_H
-#define REFPLAYER_PLAYERCOMMANDS_H
+#ifndef NATIVEPLAYER_PLAYERCOMMANDS_H
+#define NATIVEPLAYER_PLAYERCOMMANDS_H
 #include <string>
 // This class is intended to hold the method names that are available for the NRPWS RPC server.
 // It is a static class, so no instances of it should be created.
 //NRP is for native reference player
 
-#define NRP_URN_BASE "org.rdk.player"
-#define NRP_METHOD_BASE "org.rdk.player."
-namespace refplayer
+#define NRP_METHOD_BASE "org.rdk.nativeplayer."
+namespace nativeplayer
 {
 
     class PlayerCommands
@@ -101,6 +100,6 @@ namespace refplayer
         static constexpr auto NRP_METHOD_GET_PREFERRED_LANGUAGES = NRP_METHOD_BASE "getPreferredLanguages";
     };
 
-} // namespace refplayer
+} // namespace nativeplayer
 
-#endif // REFPLAYER_PLAYERCOMMANDS_H
+#endif // NATIVEPLAYER_PLAYERCOMMANDS_H

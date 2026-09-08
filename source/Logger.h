@@ -17,12 +17,12 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_LOGGER_H
-#define REFPLAYER_LOGGER_H
+#ifndef NATIVEPLAYER_LOGGER_H
+#define NATIVEPLAYER_LOGGER_H
 #include <iostream>
 #include <string>
 
-namespace refplayer
+namespace nativeplayer
 {
     enum class LogLevel
     {
@@ -62,7 +62,7 @@ namespace refplayer
     template <typename T, typename... Args>
     inline void LOG(LogLevel level, const T &firstArg, const Args &...args)
     {
-        if(level <= CURRENT_LOG_LEVEL)
+        if(level >= CURRENT_LOG_LEVEL)
         {
             std::cout << "[NativePlayer][" << logLevelToString(level) << "] " << firstArg;
             using expander = int[];
@@ -72,5 +72,5 @@ namespace refplayer
     }
  
 
-} // namespace refplayer
-#endif // REFPLAYER_LOGGER_H
+} // namespace nativeplayer
+#endif // NATIVEPLAYER_LOGGER_H

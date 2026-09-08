@@ -17,12 +17,12 @@
  * limitations under the License.
  */
 
-#ifndef REFPLAYER_PLAYER_EVENT_H
-#define REFPLAYER_PLAYER_EVENT_H
+#ifndef NATIVEPLAYER_PLAYER_EVENT_H
+#define NATIVEPLAYER_PLAYER_EVENT_H
 
 #include <string>
 #include <json/json.h>
-namespace refplayer
+namespace nativeplayer
 {
     class PlayerEventListener
     {
@@ -32,4 +32,4 @@ namespace refplayer
     };
 }
 
-#endif // REFPLAYER_PLAYER_EVENT_H
+#endif // NATIVEPLAYER_PLAYER_EVENT_H

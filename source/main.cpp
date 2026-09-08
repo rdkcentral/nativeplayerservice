@@ -18,51 +18,42 @@
  */
 
 #include "Application.h"
+#include <chrono>
 #include <iostream>
 #include <csignal>
-#include <mutex>
 #include <thread>
-#include <condition_variable>
 #include "Logger.h"
 
-std::mutex m_lock;
-std::condition_variable m_act_cv;
-bool m_isActive = true;
-using namespace refplayer;
+volatile std::sig_atomic_t m_isActive = 1;
+using namespace nativeplayer;
 void waitForTermSignal()
 {
     LOG(LogLevel::INFO, "Waiting for term signal.. ");
-    std::thread termThread([&]()
-                           {
+
     while (m_isActive)
     {
-        std::unique_lock<std::mutex> ulock(m_lock);
-        m_act_cv.wait(ulock);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    
-    LOG(LogLevel::INFO, "[waitForTermSignal] Received term signal."); });
-    termThread.join();
+
+    LOG(LogLevel::INFO, "[waitForTermSignal] Received term signal.");
 }
 
-void handleTermSignal(int _signal)
+void handleTermSignal(int)
 {
-    LOG(LogLevel::INFO, "Exiting from app..");
-
-    std::unique_lock<std::mutex> ulock(m_lock);
-    m_isActive = false;
-    m_act_cv.notify_one();
+    m_isActive = 0;
 }
 
 int main(int argc, char *argv[])
 {
+    LOG(LogLevel::INFO, "Native Player 1.0");
     signal(SIGTERM, [](int x)
            { handleTermSignal(x); });
     signal(SIGINT, [](int x)
            { handleTermSignal(x); });
 
-    refplayer::Application application;
+    nativeplayer::Application application;
     application.run();
-
+    LOG(LogLevel::INFO, "Native Player is running.");
     waitForTermSignal();
 
     LOG(LogLevel::INFO, "Exiting application.");
