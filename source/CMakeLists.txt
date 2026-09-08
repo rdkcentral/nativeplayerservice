@@ -32,9 +32,9 @@ find_package(wsrpcserver REQUIRED)
 pkg_check_modules(GLIB REQUIRED glib-2.0)
 pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0>=1.18.0)
 pkg_check_modules(GSTREAMERBASE REQUIRED gstreamer-app-1.0)
+pkg_check_modules(GSTREAMERVIDEO REQUIRED gstreamer-video-1.0)
 
-include_directories(${GLIB_INCLUDE_DIRS} 	${GSTREAMER_INCLUDE_DIRS}
-	${GSTREAMERBASE_INCLUDE_DIRS})
+include_directories(${GLIB_INCLUDE_DIRS} ${GSTREAMER_INCLUDE_DIRS} ${GSTREAMERBASE_INCLUDE_DIRS} ${GSTREAMERVIDEO_INCLUDE_DIRS})
 
 set(REFPLAYER_SOURCES)
 list(APPEND REFPLAYER_SOURCES
