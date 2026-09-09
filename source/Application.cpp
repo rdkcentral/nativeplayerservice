@@ -31,6 +31,11 @@ namespace nativeplayer
     int Application::run()
     {
         LOG(LogLevel::INFO, "Starting ", title());
+        if (!m_Connector)
+        {
+            LOG(LogLevel::ERROR, "No connector configured.");
+            return -1;
+        }
         if (m_Connector->initialize() != 0)
         {
             LOG(LogLevel::ERROR, "Failed to initialize IConnector");
