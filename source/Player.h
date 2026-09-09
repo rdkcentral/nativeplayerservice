@@ -37,8 +37,6 @@ namespace nativeplayer
     {
     public:
         using EventCallback = std::function<void(const std::string &, const Json::Value &)>;
-
-        const char *stringifyPlayerState(AAMPPlayerState state);
         void Event(const AAMPEventPtr &e) override;
         void setEventCallback(EventCallback cb)
         {

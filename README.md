@@ -29,11 +29,11 @@ websocat ws://10.0.0.11:10101
 
 //Close the session
 {"jsonrpc":"2.0", "id":"123454","method":"org.rdk.nativeplayer.closeSession", "params":{"sessionId":"session_1783267426"}}
-{"id":"123454","jsonrpc":"2.0","result":{"message":"Session closed successfully.","status":true}}
+{"id":"123454","jsonrpc":"2.0","result":{"status":true}}
 
 //Invalid playback
 {"jsonrpc":"2.0", "id":"123454","method":"org.rdk.nativeplayer.play", "params":{"url":"http://dash.akamaized.net/dash264/TestCases/1a/qualcomm/1/MultiRate.mpd","sessionId":"session_1783267426"}}
-{"id":"123454","jsonrpc":"2.0","result":{"message":"Session is not initialized.","status":false}}
+{"id":"123454","jsonrpc":"2.0","result":{"message":"No active session found.","status":false}}
 ```
 ## Reference
 [AAMP](https://github.com/rdkcentral/aamp)

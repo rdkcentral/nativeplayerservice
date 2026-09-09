@@ -753,11 +753,6 @@ namespace nativeplayer
     }
 
     // Event listener overrides
-
-    const char *RefPlayerEventListener::stringifyPlayerState(AAMPPlayerState state)
-    {
-        return "";
-    }
     void RefPlayerEventListener::Event(const AAMPEventPtr &e)
     {
         AAMPEventType type = e->getType();
