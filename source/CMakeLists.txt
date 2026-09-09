@@ -71,5 +71,5 @@ install(TARGETS nativeplayer
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 if(BUILD_TESTING)
-    add_test(NAME RefPlayerRuns COMMAND nativeplayer)
+    # nativeplayer runs until SIGTERM/SIGINT, so avoid running it as a CTest.
 endif()
