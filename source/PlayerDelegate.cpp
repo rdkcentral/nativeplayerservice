@@ -686,15 +686,8 @@ namespace nativeplayer
         }
     }
 
-    void PlayerDelegate::handleGetDRM(const std::string &request, std::string &response)
-    {
-        LOG(LogLevel::INFO, "Received getDRM request: ", request);
-        Json::Value requestJson;
-        if (validateSession(request, requestJson, response))
-        {
             std::string drm = m_playerInstance->getDRM();
-            response = std::string("{\"drm\": ") + Json::valueToQuotedString(drm.c_str()) + "}";
-        }
+            response = std::string("{\"status\": true, \"drm\": ") + Json::valueToQuotedString(drm.c_str()) + "}";
     }
 
     void PlayerDelegate::handleSetPreferredDRM(const std::string &request, std::string &response)
