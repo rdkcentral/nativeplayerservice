@@ -57,24 +57,29 @@ namespace nativeplayer
 
     void NativePlayer::shutdownPlayer()
     {
-        if (m_player)
+        if (m_eventLoop)
         {
-            delete m_player;
-            m_player = nullptr;
+            g_main_loop_quit(m_eventLoop);
+            m_eventLoop = nullptr;
+        }
+        if (m_eventThread)
+        {
+            g_thread_join(m_eventThread);
+            m_eventThread = nullptr;
+        }
+        if (m_player && m_eventListener)
+        {
+            m_player->UnRegisterEvents(m_eventListener);
         }
         if (m_eventListener)
         {
             delete m_eventListener;
             m_eventListener = nullptr;
         }
-        if (m_eventLoop)
+        if (m_player)
         {
-            g_main_loop_quit(m_eventLoop);
-        }
-        if (m_eventThread)
-        {
-            g_thread_join(m_eventThread);
-            m_eventThread = nullptr;
+            delete m_player;
+            m_player = nullptr;
         }
     }
     NativePlayer::NativePlayer()
@@ -144,21 +149,7 @@ namespace nativeplayer
     NativePlayer::~NativePlayer()
     {
         // Destructor implementation
-
-        if (m_player && m_eventListener)
-        {
-            m_player->UnRegisterEvents(m_eventListener);
-        }
-        if (m_eventListener)
-        {
-            delete m_eventListener;
-            m_eventListener = nullptr;
-        }
-        if (m_player)
-        {
-            delete m_player;
-            m_player = nullptr;
-        }
+        shutdownPlayer();
     }
 
     void NativePlayer::setInstanceId(const std::string &instanceId)
@@ -718,10 +709,10 @@ namespace nativeplayer
     }
 
     bool NativePlayer::setPreferredLanguages(const std::string &languageList,
-                                                  const std::string &rendition,
-                                                  const std::string &type,
-                                                  const std::string &codecList,
-                                                  const std::string &labelList)
+                                             const std::string &rendition,
+                                             const std::string &type,
+                                             const std::string &codecList,
+                                             const std::string &labelList)
     {
         if (!m_playerReady || !m_player)
         {

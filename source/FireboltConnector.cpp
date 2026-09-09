@@ -19,7 +19,9 @@
 
 #include "FireboltConnector.h"
 #include "Logger.h"
+#include <chrono>
 #include <iostream>
+#include <vector>
 #include <firebolt/firebolt.h>
 
 namespace nativeplayer

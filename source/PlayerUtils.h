@@ -21,9 +21,11 @@
 #define NATIVEPLAYER_UTILS_H
 
 #include <string>
+#include <memory>
 #include <json/json.h>
 #include <ctime>
 #include <uuid/uuid.h>
+#include <AampEvent.h>
 #include "Logger.h"
 namespace nativeplayer
 {

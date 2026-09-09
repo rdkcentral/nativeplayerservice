@@ -36,24 +36,11 @@ namespace nativeplayer
         if (!m_playerInstance)
         {
             m_playerInstance = NativePlayer::getInstance();
-            if (m_playerInstance)
+            if (!m_playerInstance)
             {
-                LOG(LogLevel::INFO, "Attaching AAMP event callback to RPC server.");
-                m_playerInstance->setEventCallback(
-                    [this](const std::string &eventName, const Json::Value &params)
-                    {
-                        if (m_playerEvent)
-                        {
-                            Json::Value eventParams = params;
-                            eventParams["sessionId"] = m_activeSessionId;
-                            LOG(LogLevel::INFO, "Emitting RPC event: ", eventName);
-                            m_playerEvent->onEvent(eventName, m_activeSessionId, eventParams);
-                        }
-                        else
-                        {
-                            LOG(LogLevel::ERROR, "Event listener not registered, dropping event: ", eventName);
-                        }
-                    });
+                LOG(LogLevel::ERROR, "Failed to create NativePlayer instance.");
+                response = "{\"status\": false, \"message\": \"Failed to create NativePlayer instance.\"}";
+                return;
             }
         }
         // If there is an active sesion, we won't allow opening a new session until the current session is closed.
@@ -62,6 +49,24 @@ namespace nativeplayer
             response = "{\"status\": false, \"message\": \"A session is already active. Please close the current session before opening a new one.\"}";
             return;
         }
+
+        LOG(LogLevel::INFO, "Attaching AAMP event callback to RPC server.");
+        m_playerInstance->setEventCallback(
+            [this](const std::string &eventName, const Json::Value &params)
+            {
+                if (m_playerEvent)
+                {
+                    Json::Value eventParams = params;
+                    eventParams["sessionId"] = m_activeSessionId;
+                    LOG(LogLevel::INFO, "Emitting RPC event: ", eventName);
+                    m_playerEvent->onEvent(eventName, m_activeSessionId, eventParams);
+                }
+                else
+                {
+                    LOG(LogLevel::ERROR, "Event listener not registered, dropping event: ", eventName);
+                }
+            });
+
         // Let us check whether the parameters are valid or not, if valid then we can open the session and return the response
         Json::Value requestJson;
         if (convertRawStringToJson(request, requestJson))
@@ -149,8 +154,10 @@ namespace nativeplayer
             m_playerInstance->stop();
             m_playerInstance->setEventCallback({});
             m_playerInstance = nullptr;
+            m_activeSessionId.clear();
             // Reset the WAYLAND_DISPLAY environment variable
             unsetenv("WAYLAND_DISPLAY");
+            response = "{\"status\": true}";
         }
     }
 
@@ -667,6 +674,16 @@ namespace nativeplayer
     }
 
     // ---------- DRM ----------
+    void PlayerDelegate::handleGetDRM(const std::string &request, std::string &response)
+    {
+        LOG(LogLevel::INFO, "Received getDRM request: ", request);
+        Json::Value requestJson;
+        if (validateSession(request, requestJson, response))
+        {
+            std::string drm = m_playerInstance->getDRM();
+            response = std::string("{\"status\": true, \"drm\": ") + Json::valueToQuotedString(drm.c_str()) + "}";
+        }
+    }
 
     void PlayerDelegate::handleSetLicenseServerURL(const std::string &request, std::string &response)
     {
@@ -684,10 +701,6 @@ namespace nativeplayer
                 response = "{\"status\": false, \"message\": \"Invalid or missing 'url' parameter.\"}";
             }
         }
-    }
-
-            std::string drm = m_playerInstance->getDRM();
-            response = std::string("{\"status\": true, \"drm\": ") + Json::valueToQuotedString(drm.c_str()) + "}";
     }
 
     void PlayerDelegate::handleSetPreferredDRM(const std::string &request, std::string &response)
@@ -737,7 +750,8 @@ namespace nativeplayer
     {
         LOG(LogLevel::INFO, "Received getAAMPConfig request: ", request);
         Json::Value requestJson;
-
+        if (validateSession(request, requestJson, response))
+        {
             std::string configStr;
             configStr = m_playerInstance->getAAMPConfig();
             response = "{\"status\": true, \"config\": " + configStr + "}";
