@@ -738,11 +738,9 @@ namespace nativeplayer
         LOG(LogLevel::INFO, "Received getAAMPConfig request: ", request);
         Json::Value requestJson;
 
-        if (validateSession(request, requestJson, response))
-        {
             std::string configStr;
             configStr = m_playerInstance->getAAMPConfig();
-            response = "{{\"status\": true, \"config\": " + configStr + "}}";
+            response = "{\"status\": true, \"config\": " + configStr + "}";
         }
     }
 
