@@ -108,10 +108,9 @@ namespace nativeplayer
         {
             g_print("GStreamer Debug Engine is: DISABLED (Stripped at compilation)\n");
         }
-
+        m_eventLoop = g_main_loop_new(nullptr, FALSE);
         m_eventThread = g_thread_new("RefPlayerStreamThread", [](gpointer arg) -> gpointer
                                      { return static_cast<NativePlayer *>(arg)->RefPlayerStreamThread(arg); }, this);
-
         // Keep full AAMP verbosity for troubleshooting.
         AampLogManager::lockLogLevel(false);
         AampLogManager::setLogLevel(eLOGLEVEL_TRACE);
