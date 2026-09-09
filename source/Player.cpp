@@ -102,7 +102,7 @@ namespace nativeplayer
 
     bool NativePlayer::initializePlayer()
     {
-        // Initialize the gstreamer player instancurle
+        // Initialize the gstreamer player instance
         gst_init(nullptr, nullptr);
 
         if (gst_debug_is_active())
@@ -161,7 +161,7 @@ namespace nativeplayer
     bool NativePlayer::isPlaying() const
     {
         // Check if playing implementation
-        return false;
+        return m_playerReady && m_player && (m_player->GetState() == eSTATE_PLAYING);
     }
 
     bool NativePlayer::play(const std::string &url)

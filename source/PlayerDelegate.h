@@ -30,7 +30,16 @@ namespace nativeplayer
     {
     public:
         PlayerDelegate() = default;
-        ~PlayerDelegate() = default;
+        ~PlayerDelegate()
+        {
+            // The AAMP event callback lambda captures this; if the process shuts down while a session is active,
+            // NativePlayer may still emit events into a destroyed PlayerDelegate (use-after-free).
+            // The delegate should clear the callback in its destructor.
+            if (m_playerInstance)
+            {
+                m_playerInstance->setEventCallback({});
+            }
+        }
 
         // Event Handler
         void setPlayerEventListener(std::unique_ptr<PlayerEventListener> playerEvent);
@@ -99,12 +108,12 @@ namespace nativeplayer
         void handleSetPreferredLanguages(const std::string &request, std::string &response);
         void handleGetPreferredLanguages(const std::string &request, std::string &response);
 
-        bool validateSession(const std::string &request, Json::Value &requestJson,std::string &response);
+        bool validateSession(const std::string &request, Json::Value &requestJson, std::string &response);
 
     private:
-        NativePlayer *m_playerInstance{nullptr};                  // Pointer to the player instance
-        std::string m_activeSessionId{};                        // Store the active session ID
-        std::unique_ptr<PlayerEventListener> m_playerEvent{};   // Reference to the player event handler
+        NativePlayer *m_playerInstance{nullptr};              // Pointer to the player instance
+        std::string m_activeSessionId{};                      // Store the active session ID
+        std::unique_ptr<PlayerEventListener> m_playerEvent{}; // Reference to the player event handler
     };
 } // namespace nativeplayer
 
