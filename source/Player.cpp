@@ -86,10 +86,8 @@ namespace nativeplayer
     {
     }
 
-    gpointer NativePlayer::RefPlayerStreamThread(gpointer arg)
+    gpointer NativePlayer::RefPlayerStreamThread(gpointer /*arg*/)
     {
-        // Thread implementation for AAMP GStreamer player stream
-        m_eventLoop = g_main_loop_new(nullptr, FALSE);
         g_main_loop_run(m_eventLoop); // Blocking call to run the main loop
         LOG(LogLevel::INFO, "Exiting AAMP GStreamer player stream thread.");
         g_main_loop_unref(m_eventLoop);
