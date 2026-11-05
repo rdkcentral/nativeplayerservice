@@ -8,6 +8,8 @@ C++17 launcher application that plays a manifest URL through `aamp`.
 
 ## Build
 
+The native player is intentionally quiet by default and logs only errors unless overridden with `NATIVEPLAYER_LOG_LEVEL` or `LOG_LEVEL` (`TRACE`, `DEBUG`, `INFO`, `ERROR`).
+
 Use https://github.com/rdkcentral/meta-bolt-native-player-service
 
 ## Testing the player
