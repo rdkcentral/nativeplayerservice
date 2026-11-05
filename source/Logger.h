@@ -19,9 +19,12 @@
 
 #ifndef NATIVEPLAYER_LOGGER_H
 #define NATIVEPLAYER_LOGGER_H
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 namespace nativeplayer
 {
@@ -33,44 +36,26 @@ namespace nativeplayer
         ERROR = 3
     };
 
-    inline bool equalsIgnoreCase(const std::string &lhs, const std::string &rhs)
+    inline bool equalsIgnoreCase(std::string_view lhs, std::string_view rhs)
     {
         if (lhs.size() != rhs.size())
         {
             return false;
         }
-
-        for (std::size_t i = 0; i < lhs.size(); ++i)
-        {
-            const char a = lhs[i];
-            const char b = rhs[i];
-            if (a == b)
-            {
-                continue;
-            }
-
-            const char aLower = (a >= 'A' && a <= 'Z') ? static_cast<char>(a + ('a' - 'A')) : a;
-            const char bLower = (b >= 'A' && b <= 'Z') ? static_cast<char>(b + ('a' - 'A')) : b;
-            if (aLower != bLower)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return std::equal(lhs.begin(), lhs.end(), rhs.begin(), [](char a, char b) {
+            return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
+        });
     }
 
     // Default logging is intentionally quiet; only errors are emitted unless overridden.
     inline LogLevel CURRENT_LOG_LEVEL = LogLevel::ERROR;
 
-    inline LogLevel parseLogLevel(const std::string &value)
+    inline LogLevel parseLogLevel(std::string_view value)
     {
-        if (equalsIgnoreCase(value, "trace")) return LogLevel::TRACE;
-        if (equalsIgnoreCase(value, "debug")) return LogLevel::DEBUG;
-        if (equalsIgnoreCase(value, "info")) return LogLevel::INFO;
-        if (equalsIgnoreCase(value, "error")) return LogLevel::ERROR;
-
-        return LogLevel::ERROR;
+        if (equalsIgnoreCase(value, "TRACE")) return LogLevel::TRACE;
+        if (equalsIgnoreCase(value, "DEBUG")) return LogLevel::DEBUG;
+        if (equalsIgnoreCase(value, "INFO"))  return LogLevel::INFO;
+        return LogLevel::ERROR; // Fallback default
     }
 
     inline LogLevel getConfiguredLogLevel()
@@ -89,6 +74,17 @@ namespace nativeplayer
         return parseLogLevel(envValue);
     }
 
+    inline LogLevel getConfiguredAampLogLevel()
+    {
+        const char *envValue = std::getenv("AAMP_LOG_LEVEL");
+        if (!envValue)
+        {
+            return LogLevel::ERROR;
+        }
+
+        return parseLogLevel(envValue);
+    }
+
     //Provide a method to set the log level at runtime if needed. This can be useful for changing the verbosity without recompiling.
     inline void setLogLevel(LogLevel level)
     {
@@ -96,21 +92,16 @@ namespace nativeplayer
     }
 
     //Method to convert LogLevel enum to string for better readability in logs.
-    inline std::string logLevelToString(LogLevel level)
+    constexpr std::string_view logLevelToString(LogLevel level)
     {
         switch (level)
         {
-        case LogLevel::INFO:
-            return "INFO";
-        case LogLevel::ERROR:
-            return "ERROR";
-        case LogLevel::DEBUG:
-            return "DEBUG";
-        case LogLevel::TRACE:
-            return "TRACE";
-        default:
-            return "UNKNOWN";
+            case LogLevel::TRACE: return "TRACE";
+            case LogLevel::DEBUG: return "DEBUG";
+            case LogLevel::INFO:  return "INFO";
+            case LogLevel::ERROR: return "ERROR";
         }
+        return "UNKNOWN";
     }
 
     template <typename T, typename... Args>

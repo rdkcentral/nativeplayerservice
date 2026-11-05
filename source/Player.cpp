@@ -118,7 +118,7 @@ namespace nativeplayer
                                      { return static_cast<NativePlayer *>(arg)->RefPlayerStreamThread(arg); }, this);
         // Keep full AAMP verbosity for troubleshooting.
         AampLogManager::lockLogLevel(false);
-        switch (nativeplayer::CURRENT_LOG_LEVEL)
+        switch (nativeplayer::getConfiguredAampLogLevel())
         {
             case nativeplayer::LogLevel::TRACE:
                 AampLogManager::setLogLevel(eLOGLEVEL_TRACE);
