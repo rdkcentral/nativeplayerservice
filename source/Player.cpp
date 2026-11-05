@@ -118,7 +118,22 @@ namespace nativeplayer
                                      { return static_cast<NativePlayer *>(arg)->RefPlayerStreamThread(arg); }, this);
         // Keep full AAMP verbosity for troubleshooting.
         AampLogManager::lockLogLevel(false);
-        AampLogManager::setLogLevel(eLOGLEVEL_TRACE);
+        switch (nativeplayer::getConfiguredAampLogLevel())
+        {
+            case nativeplayer::LogLevel::TRACE:
+                AampLogManager::setLogLevel(eLOGLEVEL_TRACE);
+                break;
+            case nativeplayer::LogLevel::DEBUG:
+                AampLogManager::setLogLevel(eLOGLEVEL_DEBUG);
+                break;
+            case nativeplayer::LogLevel::INFO:
+                AampLogManager::setLogLevel(eLOGLEVEL_INFO);
+                break;
+            case nativeplayer::LogLevel::ERROR:
+            default:
+                AampLogManager::setLogLevel(eLOGLEVEL_ERROR);
+                break;
+        }
         AampLogManager::lockLogLevel(true);
 
         // Start the main loop for GStreamer

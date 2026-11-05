@@ -39,7 +39,20 @@ namespace nativeplayer
 		Firebolt::Config config;
 		config.wsUrl = m_endpoint;
 		config.waitTime_ms = 1000;
-		config.log.level = Firebolt::LogLevel::Debug;
+		switch (CURRENT_LOG_LEVEL)
+		{
+			case LogLevel::TRACE:
+			case LogLevel::DEBUG:
+				config.log.level = Firebolt::LogLevel::Debug;
+				break;
+			case LogLevel::INFO:
+				config.log.level = Firebolt::LogLevel::Info;
+				break;
+			case LogLevel::ERROR:
+			default:
+				config.log.level = Firebolt::LogLevel::Error;
+				break;
+		}
 
 		auto error = Firebolt::IFireboltAccessor::Instance().Connect(config, [this](const bool connected, const Firebolt::Error error)
 																	 {
