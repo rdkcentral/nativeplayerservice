@@ -45,6 +45,7 @@ void handleTermSignal(int)
 
 int main(int argc, char *argv[])
 {
+    setLogLevel(getConfiguredLogLevel());
     LOG(LogLevel::INFO, "Native Player 1.0");
     signal(SIGTERM, [](int x)
            { handleTermSignal(x); });
